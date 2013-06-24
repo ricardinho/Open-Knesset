@@ -4,7 +4,7 @@
 {% block extratitle %}{{ object.name }}{% endblock %}
 {% block keywords %}{{ object.name }}{% endblock %}
 {% block extrajs %}
-    <script src="{% static "js/ok-watch.js" %}"></script>
+    <script src="{% static "js/ok-watch.js" %}?v=1"></script>
     <script src="{% static "js/d3.js" %}"></script>
     <script src="{% static "js/mk-pie.js" %}?v=2"></script>
     <script type="text/javascript">
@@ -89,11 +89,14 @@
 				{% if object.committees.all|length > 0 %}
 				<strong>{% trans "Committees" %}:</strong>
 				{% for committee in object.committees.all|slice:":2" %}
-				{% if not forloop.first %} | {% endif %} {{ committee }}
+				{% if not forloop.first %} | {% endif %} 
+                <a href="{{ committee.get_absolute_url }}">{{committee}}</a>
                 {% endfor %}
 				{% if object.committees.all|length > 2 %}
 				<span id="member-extra-committees" style="display:none">
-                    {% for committee in object.committees.all|slice:"2:" %} | {{ committee }} {% endfor %}
+                    {% for committee in object.committees.all|slice:"2:" %}
+					| <a href="{{ committee.get_absolute_url }}">{{committee}}</a>
+					{% endfor %}
                 </span>
                 | <a href="#" data-target="#member-extra-committees" data-toggle="oktoggle" data-text="{% trans "More" %} +|{% trans "Less" %} -">{% trans "More" %} +</a>
                 {% endif %} {% endif %}
